@@ -4,6 +4,8 @@ from datetime import datetime
 import uuid
 import os
 import json
+from PIL import Image
+import io
 
 st.title("Nosso Amor em Fotos")
 
@@ -49,8 +51,13 @@ if st.button("Gerar Página com QR Code"):
         with open("pares.json", "w") as f:
             json.dump(all_data, f)
 
-        url = f"https://seusite.com/exibir.py?id={id_unico}"  # ou "http://localhost:8501/exibir?id=..."
+        url = f"https://projetonamoro.streamlit.app/exibir.py?id={id_unico}"  # ou "http://localhost:8501/exibir?id=..."
 
         qr = qrcode.make(url)
-        st.image(qr, caption="Escaneie para ver a página do casal")
+
+        # Converte o QR Code para bytes
+        buf = io.BytesIO()
+        qr.save(buf, format="PNG")
+        st.image(buf.getvalue(), caption="Escaneie para ver a página do casal")
+
         st.markdown(f"[Ou clique aqui para abrir]({url})")
