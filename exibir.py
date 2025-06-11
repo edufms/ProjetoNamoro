@@ -13,39 +13,39 @@ id_unico = query_params.get("id", [None])[0]
 
 if not id_unico:
     st.error("Parâmetro inválido na URL.")
-        st.stop()
+    st.stop()
 
-        # Carrega dados
-        with open("pares.json", "r") as f:
-            dados = json.load(f)
+# Carrega dados
+with open("pares.json", "r") as f:
+    dados = json.load(f)
 
-            casal = dados.get(id_unico)
+casal = dados.get(id_unico)
 
-            if not casal:
-                st.error("Casal não encontrado.")
-                    st.stop()
+if not casal:
+    st.error("Casal não encontrado.")
+    st.stop()
 
-                    st.title(f"{casal['nome']}")
-                    data_namoro = datetime.strptime(casal["data"], "%Y-%m-%d")
+st.title(f"{casal['nome']}")
+data_namoro = datetime.strptime(casal["data"], "%Y-%m-%d")
 
-                    # Tempo juntos
-                    agora = datetime.now()
-                    diferenca = agora - data_namoro
+# Tempo juntos
+agora = datetime.now()
+diferenca = agora - data_namoro
 
-                    anos = diferenca.days // 365
-                    meses = (diferenca.days % 365) // 30
-                    dias = (diferenca.days % 365) % 30
-                    horas = diferenca.seconds // 3600
+anos = diferenca.days // 365
+meses = (diferenca.days % 365) // 30
+dias = (diferenca.days % 365) % 30
+horas = diferenca.seconds // 3600
 
-                    st.subheader(f"Juntos há {anos} anos, {meses} meses, {dias} dias e {horas} horas.")
+st.subheader(f"Juntos há {anos} anos, {meses} meses, {dias} dias e {horas} horas.")
 
-                    # Slideshow
-                    st.subheader("Nossas Memórias 💖")
+# Slideshow
+st.subheader("Nossas Memórias 💖")
 
-                    fotos = casal["fotos"]
+fotos = casal["fotos"]
 
-                    # Slideshow simples com intervalo
-                    for img_path in fotos:
-                        img = Image.open(img_path)
-                            st.image(img, use_column_width=True)
-                                time.sleep(1.5)
+# Slideshow simples com intervalo
+for img_path in fotos:
+    img = Image.open(img_path)
+    st.image(img, use_column_width=True)
+    time.sleep(1.5)
