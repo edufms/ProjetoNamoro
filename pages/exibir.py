@@ -44,18 +44,20 @@ imagens_base64 = [get_image_as_base64(img) for img in imagens]
 # 🖼️ Criação do carrossel automático com HTML + JS
 html = """
 <div id="slideshow" style="text-align:center">
-  <img id="slide-img" src="data:image/jpeg;base64,{}" style="width:100%; max-height:400px; object-fit:contain; border-radius:16px">
+  <img id="slide-img" src="data:image/jpeg;base64,{first_img}" style="width:100%; max-height:400px; object-fit:contain; border-radius:16px">
 </div>
 <script>
-  const imagens = [{}];
+  const imagens = [{imagens_list}];
   let idx = 0;
   const slide = document.getElementById("slide-img");
-  setInterval(() => {
+  setInterval(() => {{
     idx = (idx + 1) % imagens.length;
     slide.src = "data:image/jpeg;base64," + imagens[idx];
-  }, 3000);
+  }}, 3000);
 </script>
-""".format(imagens_base64[0], ",".join([f'"{img}"' for img in imagens_base64]))
+""".format(
+    first_img=imagens_base64[0],
+    imagens_list=",".join([f'"{img}"' for img in imagens_base64])
 
 st.components.v1.html(html, height=420)
 
