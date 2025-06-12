@@ -8,7 +8,7 @@ import urllib.parse
 
 st.set_page_config(page_title="Amor em Fotos", layout="centered")
 
-query_params = st.experimental_get_query_params()
+params = st.query_params
 id_unico = query_params.get("id", [None])[0]
 
 if not id_unico:
@@ -47,5 +47,5 @@ fotos = casal["fotos"]
 # Slideshow simples com intervalo
 for img_path in fotos:
     img = Image.open(img_path)
-    st.image(img, use_column_width=True)
+    st.image(imagem, use_container_width=True)
     time.sleep(1.5)
