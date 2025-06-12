@@ -8,7 +8,7 @@ import time
 st.set_page_config(page_title="Slideshow do Casal", layout="centered")
 
 # 📌 Captura ID da URL
-id_unico = st.query_params.get("id", [None])[0]
+id_unico = st.query_params.get("id", [None])
 
 if not id_unico:
     st.error("ID não fornecido na URL.")
