@@ -53,6 +53,7 @@ st.image(Image.open(img_atual), use_container_width=True)
 # 🕒 Tempo juntos
 try:
     with open("pares.json", "r") as f:
+        st.markdown(f"💖 Estão juntos há: **{anos} anos, {meses} meses, {dias} dias e {horas} horas**.")
         dados = json.load(f)
         data_str = dados.get(id_unico, {}).get("data")
         if data_str:
@@ -64,8 +65,6 @@ try:
             meses = (delta.days % 365) // 30
             dias = (delta.days % 365) % 30
             horas = delta.seconds // 3600
-
-            st.markdown(f"💖 Estão juntos há: **{anos} anos, {meses} meses, {dias} dias e {horas} horas**.")
         else:
             st.warning("Data de início do namoro não encontrada.")
 except Exception as e:
