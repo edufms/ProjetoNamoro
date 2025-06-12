@@ -3,7 +3,7 @@ import os
 from PIL import Image
 import json
 import datetime
-import time
+import base64
 
 st.set_page_config(page_title="Slideshow do Casal", layout="centered")
 
@@ -32,11 +32,32 @@ if not imagens:
     st.error("Não há imagens válidas.")
     st.stop()
 
-# 🔁 Inicializa session_state
-if "foto_idx" not in st.session_state:
-    st.session_state.foto_idx = 0
-if "ultima_execucao" not in st.session_state:
-    st.session_state.ultima_execucao = time.time()
+# 🔄 Converter imagens para base64
+def get_image_as_base64(path):
+    with open(path, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+# 🖼️ Lista de imagens base64
+imagens_base64 = [get_image_as_base64(img) for img in imagens]
+
+# 🖼️ Criação do carrossel automático com HTML + JS
+html = """
+<div id="slideshow" style="text-align:center">
+  <img id="slide-img" src="data:image/jpeg;base64,{}" style="width:100%; max-height:400px; object-fit:contain; border-radius:16px">
+</div>
+<script>
+  const imagens = [{}];
+  let idx = 0;
+  const slide = document.getElementById("slide-img");
+  setInterval(() => {
+    idx = (idx + 1) % imagens.length;
+    slide.src = "data:image/jpeg;base64," + imagens[idx];
+  }, 3000);
+</script>
+""".format(imagens_base64[0], ",".join([f'"{img}"' for img in imagens_base64]))
+
+st.components.v1.html(html, height=420)
 
 # 🕒 Tempo de relacionamento
 try:
@@ -54,16 +75,7 @@ try:
             horas = delta.seconds // 3600
 
             st.markdown(f"💖 Estão juntos há: **{anos} anos, {meses} meses, {dias} dias e {horas} horas**.")
-except:
-    st.warning("Erro ao carregar a data de início do namoro.")
-
-# 🖼️ Exibe imagem atual
-img_atual = imagens[st.session_state.foto_idx]
-st.image(Image.open(img_atual), use_container_width=True)
-
-# ⏱️ Avança imagem automaticamente a cada 3 segundos
-tempo_atual = time.time()
-if tempo_atual - st.session_state.ultima_execucao >= 3:  # 3 segundos
-    st.session_state.foto_idx = (st.session_state.foto_idx + 1) % len(imagens)
-    st.session_state.ultima_execucao = tempo_atual
-    st.experimental_rerun()
+        else:
+            st.warning("Data de início do namoro não encontrada.")
+except Exception as e:
+    st.warning(f"Erro ao carregar a data: {e}")
