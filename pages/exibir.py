@@ -41,26 +41,6 @@ def get_image_as_base64(path):
 # 🖼️ Lista de imagens base64
 imagens_base64 = [get_image_as_base64(img) for img in imagens]
 
-# 🖼️ Criação do carrossel automático com HTML + JS
-html = """
-<div id="slideshow" style="text-align:center">
-  <img id="slide-img" src="data:image/jpeg;base64,{first_img}" style="width:100%; max-height:400px; object-fit:contain; border-radius:16px">
-</div>
-<script>
-  const imagens = [{imagens_list}];
-  let idx = 0;
-  const slide = document.getElementById("slide-img");
-  setInterval(() => {{
-    idx = (idx + 1) % imagens.length;
-    slide.src = "data:image/jpeg;base64," + imagens[idx];
-  }}, 3000);
-</script>
-""".format(
-    first_img=imagens_base64[0],
-    imagens_list=",".join([f'"{img}"' for img in imagens_base64]))
-
-st.components.v1.html(html, height=420)
-
 # 🕒 Tempo de relacionamento
 try:
     with open("pares.json", "r") as f:
@@ -81,3 +61,24 @@ try:
             st.warning("Data de início do namoro não encontrada.")
 except Exception as e:
     st.warning(f"Erro ao carregar a data: {e}")
+
+# 🖼️ Criação do carrossel automático com HTML + JS
+html = """
+<div id="slideshow" style="text-align:center">
+  <img id="slide-img" src="data:image/jpeg;base64,{first_img}" style="width:100%; max-height:400px; object-fit:contain; border-radius:16px">
+</div>
+<script>
+  const imagens = [{imagens_list}];
+  let idx = 0;
+  const slide = document.getElementById("slide-img");
+  setInterval(() => {{
+    idx = (idx + 1) % imagens.length;
+    slide.src = "data:image/jpeg;base64," + imagens[idx];
+  }}, 3000);
+</script>
+""".format(
+    first_img=imagens_base64[0],
+    imagens_list=",".join([f'"{img}"' for img in imagens_base64]))
+
+st.components.v1.html(html, height=420)
+
