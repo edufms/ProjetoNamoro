@@ -51,7 +51,7 @@ if st.button("Gerar Página com QR Code"):
         with open("pares.json", "w") as f:
             json.dump(all_data, f)
 
-        url = f"https://projetonamoro.streamlit.app/Exibir?id={id_unico}"  # ou "http://localhost:8501/exibir?id=..."
+        url = f"https://projetonamoro.streamlit.app/exibir?id={id_unico}"  # ou "http://localhost:8501/exibir?id=..."
 
         qr = qrcode.make(url)
 
