@@ -9,7 +9,7 @@ import urllib.parse
 st.set_page_config(page_title="Amor em Fotos", layout="centered")
 
 params = st.query_params
-id_unico = query_params.get("id", [None])[0]
+id_unico = st.query_params.get("id", [None])[0]
 
 if not id_unico:
     st.error("Parâmetro inválido na URL.")
