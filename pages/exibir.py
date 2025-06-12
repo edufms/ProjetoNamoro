@@ -57,7 +57,7 @@ html = """
 </script>
 """.format(
     first_img=imagens_base64[0],
-    imagens_list=",".join([f'"{img}"' for img in imagens_base64])
+    imagens_list=",".join([f'"{img}"' for img in imagens_base64]))
 
 st.components.v1.html(html, height=420)
 
