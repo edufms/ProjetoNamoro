@@ -38,10 +38,6 @@ if "foto_idx" not in st.session_state:
 if "ultima_execucao" not in st.session_state:
     st.session_state.ultima_execucao = time.time()
 
-# 🖼️ Exibe imagem atual
-img_atual = imagens[st.session_state.foto_idx]
-st.image(Image.open(img_atual), use_container_width=True)
-
 # 🕒 Tempo de relacionamento
 try:
     with open("pares.json", "r") as f:
@@ -60,6 +56,10 @@ try:
             st.markdown(f"💖 Estão juntos há: **{anos} anos, {meses} meses, {dias} dias e {horas} horas**.")
 except:
     st.warning("Erro ao carregar a data de início do namoro.")
+
+# 🖼️ Exibe imagem atual
+img_atual = imagens[st.session_state.foto_idx]
+st.image(Image.open(img_atual), use_container_width=True)
 
 # ⏱️ Avança imagem automaticamente a cada 3 segundos
 tempo_atual = time.time()
