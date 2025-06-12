@@ -8,7 +8,7 @@ st.set_page_config(page_title="Slideshow do Casal", layout="centered")
 
 # 📌 Captura o ID da URL (ex: ?id=abc123)
 id_unico = st.query_params.get("id", [None])
-st.write(id_unico)
+
 if not id_unico:
     st.error("ID não fornecido na URL.")
     st.stop()
@@ -46,14 +46,9 @@ with col3:
     if st.button("➡️"):
         st.session_state.foto_idx = (st.session_state.foto_idx + 1) % len(imagens)
 
-# 🖼️ Exibe imagem atual
-img_atual = imagens[st.session_state.foto_idx]
-st.image(Image.open(img_atual), use_container_width=True)
-
 # 🕒 Tempo juntos
 try:
     with open("pares.json", "r") as f:
-        st.markdown(f"💖 Estão juntos há: **{anos} anos, {meses} meses, {dias} dias e {horas} horas**.")
         dados = json.load(f)
         data_str = dados.get(id_unico, {}).get("data")
         if data_str:
@@ -65,7 +60,15 @@ try:
             meses = (delta.days % 365) // 30
             dias = (delta.days % 365) % 30
             horas = delta.seconds // 3600
+
+            st.markdown(f"💖 Estão juntos há: **{anos} anos, {meses} meses, {dias} dias e {horas} horas**.")
         else:
             st.warning("Data de início do namoro não encontrada.")
 except Exception as e:
     st.warning(f"Erro ao carregar a data: {e}")
+
+# 🖼️ Exibe imagem atual
+img_atual = imagens[st.session_state.foto_idx]
+st.image(Image.open(img_atual), use_container_width=True)
+
+
