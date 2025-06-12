@@ -56,6 +56,8 @@ try:
             dias = (delta.days % 365) % 30
             horas = delta.seconds // 3600
 
+            casal = dados.get(id_unico, {}).get("nome")
+            st.markdown(casal)
             st.markdown(f"💖 Estão juntos há: **{anos} anos, {meses} meses, {dias} dias e {horas} horas**.")
         else:
             st.warning("Data de início do namoro não encontrada.")
